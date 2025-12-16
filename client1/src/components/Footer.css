@@ -1,0 +1,19 @@
+.site-footer {
+  background-color: #ede9fe;
+  color: #4f46e5;
+  text-align: center;
+  padding: 15px 0;
+  font-weight: 500;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
+}
+
+.site-footer a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.site-footer a:hover {
+  color: #7c3aed;
+  text-decoration: underline;
+}

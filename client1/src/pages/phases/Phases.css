@@ -1,0 +1,147 @@
+.phase-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.phase-header {
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 40px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.phase-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+.phase-subtitle {
+  font-size: 1.2rem;
+  color: #718096;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.phase-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.phase-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #edf2f7;
+}
+
+.phase-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  display: inline-block;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+.card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card-list li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.card-list li::before {
+  content: "•";
+  color: #4f46e5;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  font-size: 1.2em;
+}
+
+.phase-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  font-size: 1rem;
+}
+
+.btn-back {
+  background-color: #edf2f7;
+  color: #4a5568;
+}
+
+.btn-back:hover {
+  background-color: #e2e8f0;
+  color: #2d3748;
+}
+
+.btn-next {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.btn-next:hover {
+  background-color: #4338ca;
+  transform: translateX(3px);
+}
+
+.btn-home {
+  background-color: transparent;
+  color: #718096;
+  border: 1px solid #cbd5e0;
+}
+
+.btn-home:hover {
+  background-color: #f7fafc;
+  color: #4a5568;
+}
+
+/* Specific colors for card icons */
+.icon-objectives { background-color: #ebf8ff; color: #3182ce; }
+.icon-actions { background-color: #f0fff4; color: #38a169; }
+.icon-resources { background-color: #fff5f5; color: #e53e3e; }

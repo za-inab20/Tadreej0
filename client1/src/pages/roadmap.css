@@ -1,0 +1,186 @@
+.timeline-container {
+  padding: 50px 20px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.timeline-wrapper {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: #e5e7eb;
+  border-radius: 2px;
+}
+
+.timeline-progress {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, #4f46e5, #7c3aed);
+  height: 0;
+  transition: height 0.2s ease-out;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 80px;
+  width: 38%;
+  z-index: 2;
+}
+
+/* Right items (Index 0, 2, 4...) */
+.timeline-item.right {
+  left: 50%;
+  padding-left: 40px;
+  padding-right: 0;
+}
+
+/* Left items (Index 1, 3, 5...) */
+.timeline-item.left {
+  left: 12%;
+  padding-right: 40px;
+  padding-left: 0;
+  text-align: right;
+}
+
+.timeline-item .content {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 30px;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  min-height: 200px;
+}
+
+.text-content {
+  width: 100%;
+}
+
+.timeline-item.right .content {
+  padding-right: 120px;
+}
+
+.timeline-item.left .content {
+  padding-left: 120px;
+}
+
+.timeline-item:hover .content {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 30px rgba(79, 70, 229, 0.15);
+  border-color: #c7d2fe;
+}
+
+.timeline-item.left .content {
+  margin-left: auto; /* Push to right side of the left container */
+}
+
+.roadmap-img {
+  width: 200px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.timeline-item.right .roadmap-img {
+  right: -100px;
+}
+
+.timeline-item.left .roadmap-img {
+  left: -100px;
+}
+
+.timeline-circle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 3;
+  box-shadow: 0 0 0 4px #fff, 0 0 0 8px rgba(79, 70, 229, 0.1);
+  transition: transform 0.3s;
+}
+
+.timeline-item.right .timeline-circle {
+  left: -20px; /* Center on the line (half of 40px) */
+}
+
+.timeline-item.left .timeline-circle {
+  right: -20px; /* Center on the line */
+}
+
+.timeline-circle:hover {
+  transform: translateY(-50%) scale(1.2);
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .timeline-line, .timeline-progress {
+    left: 30px;
+    transform: none;
+  }
+  
+  .timeline-item {
+    width: 100%;
+    left: 0 !important;
+    padding-left: 60px;
+    padding-right: 15px;
+    text-align: left;
+  }
+  
+  .timeline-item.left {
+    text-align: left;
+  }
+
+  .timeline-item .content {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 30px !important;
+    text-align: center;
+  }
+
+  .roadmap-img {
+    position: static;
+    transform: none;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+  
+  .timeline-item.right .timeline-circle,
+  .timeline-item.left .timeline-circle {
+    left: 10px; /* Align to the left line */
+    right: auto;
+  }
+}

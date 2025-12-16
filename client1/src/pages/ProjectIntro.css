@@ -1,0 +1,134 @@
+/* ProjectIntro.css */
+.project-intro-wrapper {
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(180deg, #f5f3ff 0%, #ffffff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  position: relative;
+}
+
+.project-intro-card {
+  position: relative;
+  background: white;
+  width: 100%;
+  max-width: 700px;
+  padding: 45px 55px;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.15);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.back-btn-intro {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  background: transparent;
+  border: none;
+  color: #6366f1;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.back-btn-intro:hover {
+  color: #4f46e5;
+  background-color: #eef2ff;
+}
+
+.intro-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #4338ca;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.intro-subtitle {
+  font-size: 15px;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.project-textarea {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  margin-bottom: 30px;
+  color: #1f2937;
+}
+
+.project-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.project-textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.btn-continue {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-continue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
+}
+
+.btn-continue:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .project-intro-card {
+    padding: 35px 25px;
+  }
+
+  .intro-title {
+    font-size: 24px;
+  }
+
+  .project-textarea {
+    font-size: 14px;
+  }
+}
