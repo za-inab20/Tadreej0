@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+ 
 const API_BASE = "http://localhost:5000";
-
-// ✅ LOGIN
+ 
+ 
 export const getUser = createAsyncThunk(
   "users/getUser",
   async (udata, { rejectWithValue }) => {
@@ -17,8 +17,8 @@ export const getUser = createAsyncThunk(
     }
   }
 );
-
-// ✅ REGISTER
+ 
+ 
 export const addUser = createAsyncThunk(
   "users/addUser",
   async (udata, { rejectWithValue }) => {
@@ -32,8 +32,7 @@ export const addUser = createAsyncThunk(
     }
   }
 );
-
-// 🔐 Forgot password: request reset code
+ 
 export const requestPasswordReset = createAsyncThunk(
   "users/requestPasswordReset",
   async (email, { rejectWithValue }) => {
@@ -45,8 +44,8 @@ export const requestPasswordReset = createAsyncThunk(
     }
   }
 );
-
-// 🔐 Verify OTP
+ 
+ 
 export const verifyOtp = createAsyncThunk(
   "users/verifyOtp",
   async (payload, { rejectWithValue }) => {
@@ -58,8 +57,8 @@ export const verifyOtp = createAsyncThunk(
     }
   }
 );
-
-// 🔐 Reset password
+ 
+ 
 export const resetPassword = createAsyncThunk(
   "users/resetPassword",
   async (payload, { rejectWithValue }) => {
@@ -71,8 +70,8 @@ export const resetPassword = createAsyncThunk(
     }
   }
 );
-
-// 👤 Update User Profile
+ 
+ 
 export const updateUser = createAsyncThunk(
   "users/updateUser",
   async (userData, { rejectWithValue }) => {
@@ -84,7 +83,7 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
-
+ 
 const initVal = {
   user: {},
   message: "",
@@ -101,7 +100,7 @@ const initVal = {
   updateStatus: "idle",
   updateMessage: "",
 };
-
+ 
 export const UserSlice = createSlice({
   name: "users",
   initialState: initVal,
@@ -115,8 +114,8 @@ export const UserSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-
-      // ✅ REGISTER
+ 
+ 
       .addCase(addUser.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
@@ -133,8 +132,8 @@ export const UserSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-
-      // ✅ LOGIN
+ 
+     
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
@@ -152,8 +151,8 @@ export const UserSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-
-      // 🔐 REQUEST RESET
+ 
+     
       .addCase(requestPasswordReset.pending, (state) => {
         state.resetStatus = "loading";
         state.resetMessage = "";
@@ -167,8 +166,8 @@ export const UserSlice = createSlice({
         state.resetStatus = "failed";
         state.resetMessage = action.payload;
       })
-
-      // 🔐 VERIFY OTP
+ 
+     
       .addCase(verifyOtp.pending, (state) => {
         state.otpStatus = "loading";
         state.otpMessage = "";
@@ -181,8 +180,8 @@ export const UserSlice = createSlice({
         state.otpStatus = "failed";
         state.otpMessage = action.payload;
       })
-
-      // 🔐 RESET PASSWORD
+ 
+     
       .addCase(resetPassword.pending, (state) => {
         state.passwordResetStatus = "loading";
         state.passwordResetMessage = "";
@@ -195,8 +194,8 @@ export const UserSlice = createSlice({
         state.passwordResetStatus = "failed";
         state.passwordResetMessage = action.payload;
       })
-
-      // 👤 UPDATE USER
+ 
+   
       .addCase(updateUser.pending, (state) => {
         state.updateStatus = "loading";
         state.updateMessage = "";
@@ -212,6 +211,6 @@ export const UserSlice = createSlice({
       });
   },
 });
-
+ 
 export const { logout } = UserSlice.actions;
 export default UserSlice.reducer;
