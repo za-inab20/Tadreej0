@@ -1,25 +1,43 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import Register from "../pages/Register";
+import { Provider } from "react-redux";
+import store from "../../store";
+import Register from "../Register";
 
 describe("Register Page Tests", () => {
+
   test("renders register title", () => {
     render(
-      <MemoryRouter>
-        <Register />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Register />
+        </MemoryRouter>
+      </Provider>
     );
-    expect(screen.getByText(/Register/i)).toBeInTheDocument();
+
+    // نتحقق من وجود عنوان Register
+    expect(
+      screen.getByRole("heading", { name: /register/i })
+    ).toBeInTheDocument();
   });
 
   test("username input works", () => {
     render(
-      <MemoryRouter>
-        <Register />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Register />
+        </MemoryRouter>
+      </Provider>
     );
-    const usernameInput = screen.getByPlaceholderText(/Enter your username/i);
-    fireEvent.change(usernameInput, { target: { value: "Zainab" } });
+
+    // نبحث عن حقل الاسم حسب الـ placeholder الحقيقي
+    const usernameInput = screen.getByPlaceholderText(/enter your name/i);
+
+    fireEvent.change(usernameInput, {
+      target: { value: "Zainab" }
+    });
+
     expect(usernameInput.value).toBe("Zainab");
   });
+
 });

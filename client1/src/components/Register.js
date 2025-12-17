@@ -17,6 +17,8 @@ import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { IoArrowBack } from "react-icons/io5";
 import { useState } from "react";
+import { configureStore } from "@reduxjs/toolkit";
+
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const Register = () => {
             password: data.password,
             profilepic: data.role // Using role as profilepic placeholder or you can set a default
         };
-        
+
         dispatch(addUser(userData));
 
         // Navigate after successful registration
@@ -60,9 +62,9 @@ const Register = () => {
                             className="register-card text-center"
                             onSubmit={handleSubmit(onSubmit)}
                         >
-                            <button 
+                            <button
                                 type="button"
-                                className="back-btn" 
+                                className="back-btn"
                                 onClick={() => navigate("/login")}
                             >
                                 <IoArrowBack /> Back
@@ -112,8 +114,8 @@ const Register = () => {
                                     className="input-box"
                                     {...register("password")}
                                 />
-                                <span 
-                                    className="icon password-toggle" 
+                                <span
+                                    className="icon password-toggle"
                                     onClick={() => setShowPassword(!showPassword)}
                                     style={{ cursor: 'pointer' }}
                                 >
@@ -133,8 +135,8 @@ const Register = () => {
                                     className="input-box"
                                     {...register("confirmPassword")}
                                 />
-                                <span 
-                                    className="icon password-toggle" 
+                                <span
+                                    className="icon password-toggle"
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                     style={{ cursor: 'pointer' }}
                                 >
