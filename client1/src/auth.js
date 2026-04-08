@@ -1,11 +1,11 @@
 export const isAuthenticated = () => {
-  return localStorage.getItem("isLoggedIn") === "true";
+  return sessionStorage.getItem("isLoggedIn") === "true";
 };
 
 export const loginUser = () => {
-  localStorage.setItem("isLoggedIn", "true");
+  sessionStorage.setItem("isLoggedIn", "true");
 };
 
 export const logoutUser = () => {
-  localStorage.removeItem("isLoggedIn");
+  sessionStorage.removeItem("isLoggedIn");
 };

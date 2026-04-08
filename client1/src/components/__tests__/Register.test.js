@@ -9,7 +9,7 @@ describe("Register Page Tests", () => {
   test("renders register title", () => {
     render(
       <Provider store={store}>
-        <MemoryRouter>
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Register />
         </MemoryRouter>
       </Provider>
@@ -24,7 +24,7 @@ describe("Register Page Tests", () => {
   test("username input works", () => {
     render(
       <Provider store={store}>
-        <MemoryRouter>
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Register />
         </MemoryRouter>
       </Provider>

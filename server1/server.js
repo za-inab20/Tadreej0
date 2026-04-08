@@ -5,45 +5,51 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import catalogRoutes from './routes/catalogRoutes.js';
 import { errorHandler, notFound } from './middlewares/errorHandler.js';
+import { seedDefaultData } from './utils/seedDefaultData.js';
 
-// Load environment variables
 dotenv.config();
 
-// Initialize express app
 const app = express();
 
-// Connect to MongoDB
-connectDB();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check route
 app.get('/', (req, res) => {
-    res.json({ 
-        message: 'Tadreej API Server',
-        status: 'Running',
-        version: '1.0.0'
-    });
+  res.json({
+    message: 'Tadreej API Server',
+    status: 'Running',
+    version: '1.0.0',
+  });
 });
 
-// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/catalog', catalogRoutes);
 
-// Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
 
-// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+
+const startServer = async () => {
+  try {
+    await connectDB();
+    await seedDefaultData();
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  } catch (error) {
+    console.error('Server Startup Error:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;

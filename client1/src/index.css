@@ -1,3 +1,30 @@
+:root {
+  --app-bg: #f5f3ff;
+  --surface-bg: #ffffff;
+  --surface-alt: #f8fafc;
+  --surface-muted: #eef2ff;
+  --border-color: #e5e7eb;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --primary: #4f46e5;
+  --primary-strong: #4338ca;
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme='dark'],
+body[data-theme='dark'] {
+  --app-bg: #0f172a;
+  --surface-bg: #111827;
+  --surface-alt: #1f2937;
+  --surface-muted: #172554;
+  --border-color: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #cbd5e1;
+  --primary: #818cf8;
+  --primary-strong: #6366f1;
+  --shadow-soft: 0 16px 38px rgba(2, 6, 23, 0.55);
+}
+
 html, body, #root {
   height: 100%;
 }
@@ -22,9 +49,183 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--app-bg);
+  color: var(--text-main);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+#root,
+.app-shell,
+.main-content {
+  background: var(--app-bg);
+  color: var(--text-main);
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+body[data-theme='dark'] .header,
+body[data-theme='dark'] .nav-menu,
+body[data-theme='dark'] .site-footer,
+body[data-theme='dark'] .user-dropdown,
+body[data-theme='dark'] .dropdown-header,
+body[data-theme='dark'] .logout-dialog,
+body[data-theme='dark'] .user-details-modal,
+body[data-theme='dark'] .profile-sidebar-nav,
+body[data-theme='dark'] .profile-main-content,
+body[data-theme='dark'] .filters-section,
+body[data-theme='dark'] .course-card,
+body[data-theme='dark'] .freelancer-card,
+body[data-theme='dark'] .freelancer-profile-card,
+body[data-theme='dark'] .admin-dashboard,
+body[data-theme='dark'] .metric-card,
+body[data-theme='dark'] .panel-card,
+body[data-theme='dark'] .table-card,
+body[data-theme='dark'] .list-row,
+body[data-theme='dark'] .settings-section,
+body[data-theme='dark'] .content-header,
+body[data-theme='dark'] .phase-card,
+body[data-theme='dark'] .suggestions-container,
+body[data-theme='dark'] .intro-container,
+body[data-theme='dark'] .project-intro-container,
+body[data-theme='dark'] .roadmap-container,
+body[data-theme='dark'] .home-container,
+body[data-theme='dark'] .forgot-password-container,
+body[data-theme='dark'] .login-container,
+body[data-theme='dark'] .register-container,
+body[data-theme='dark'] .otp-container,
+body[data-theme='dark'] .reset-password-container {
+  background: var(--surface-bg) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow-soft);
+}
+
+body[data-theme='dark'] .freelancers-page,
+body[data-theme='dark'] .courses-container,
+body[data-theme='dark'] .profile-container,
+body[data-theme='dark'] .admin-dashboard {
+  background: var(--app-bg) !important;
+}
+
+body[data-theme='dark'] h1,
+body[data-theme='dark'] h2,
+body[data-theme='dark'] h3,
+body[data-theme='dark'] h4,
+body[data-theme='dark'] h5,
+body[data-theme='dark'] h6,
+body[data-theme='dark'] strong,
+body[data-theme='dark'] label,
+body[data-theme='dark'] .logo-text,
+body[data-theme='dark'] .nav-links a,
+body[data-theme='dark'] .user-name,
+body[data-theme='dark'] .dropdown-email,
+body[data-theme='dark'] .dialog-title,
+body[data-theme='dark'] .metric-card strong,
+body[data-theme='dark'] .metric-card h3,
+body[data-theme='dark'] .panel-card h3,
+body[data-theme='dark'] .course-title,
+body[data-theme='dark'] .freelancers-title,
+body[data-theme='dark'] .freelancer-name,
+body[data-theme='dark'] .courses-title,
+body[data-theme='dark'] .admin-header h1,
+body[data-theme='dark'] .list-row strong,
+body[data-theme='dark'] .tab-btn {
+  color: var(--text-main) !important;
+}
+
+body[data-theme='dark'] p,
+body[data-theme='dark'] small,
+body[data-theme='dark'] .course-instructor,
+body[data-theme='dark'] .course-price,
+body[data-theme='dark'] .courses-subtitle,
+body[data-theme='dark'] .freelancers-subtitle,
+body[data-theme='dark'] .freelancer-role,
+body[data-theme='dark'] .dialog-message,
+body[data-theme='dark'] .admin-header p,
+body[data-theme='dark'] .list-row p,
+body[data-theme='dark'] .stat-label,
+body[data-theme='dark'] .dropdown-item,
+body[data-theme='dark'] .detail-value,
+body[data-theme='dark'] .theme-option span {
+  color: var(--text-muted) !important;
+}
+
+body[data-theme='dark'] .tab-btn.active,
+body[data-theme='dark'] .primary-btn,
+body[data-theme='dark'] .refresh-btn,
+body[data-theme='dark'] .register-link,
+body[data-theme='dark'] .btn-save,
+body[data-theme='dark'] .enroll-btn,
+body[data-theme='dark'] .close-details-btn {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+body[data-theme='dark'] .secondary-btn,
+body[data-theme='dark'] .btn-cancel {
+  background: #1f2937 !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+body[data-theme='dark'] .user-info,
+body[data-theme='dark'] .nav-links a:hover,
+body[data-theme='dark'] .nav-links a.active,
+body[data-theme='dark'] .pill,
+body[data-theme='dark'] .theme-option.active {
+  background: rgba(129, 140, 248, 0.14) !important;
+}
+
+body[data-theme='dark'] .admin-table th {
+  background: #0f172a !important;
+  color: var(--text-main) !important;
+}
+
+body[data-theme='dark'] .admin-table th,
+body[data-theme='dark'] .admin-table td,
+body[data-theme='dark'] .list-row,
+body[data-theme='dark'] .card-stats,
+body[data-theme='dark'] .course-meta,
+body[data-theme='dark'] .dropdown-divider,
+body[data-theme='dark'] .detail-item,
+body[data-theme='dark'] .user-mini-profile,
+body[data-theme='dark'] .form-group input,
+body[data-theme='dark'] .admin-form input,
+body[data-theme='dark'] .admin-form select,
+body[data-theme='dark'] .admin-form textarea,
+body[data-theme='dark'] .table-input,
+body[data-theme='dark'] .search-input,
+body[data-theme='dark'] .category-select,
+body[data-theme='dark'] .search-box input,
+body[data-theme='dark'] .form-group select,
+body[data-theme='dark'] .form-group textarea,
+body[data-theme='dark'] .password-wrapper {
+  border-color: var(--border-color) !important;
+}
+
+body[data-theme='dark'] input,
+body[data-theme='dark'] textarea,
+body[data-theme='dark'] select,
+body[data-theme='dark'] .table-input,
+body[data-theme='dark'] .search-input,
+body[data-theme='dark'] .category-select,
+body[data-theme='dark'] .password-wrapper,
+body[data-theme='dark'] .input-disabled {
+  background: #0f172a !important;
+  color: var(--text-main) !important;
+}
+
+body[data-theme='dark'] ::placeholder {
+  color: #94a3b8;
 }

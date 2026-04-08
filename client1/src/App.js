@@ -1,4 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
@@ -26,23 +28,39 @@ import Courses from "./pages/Courses";
 import Suggestions from "./pages/Suggestions";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
+import FreelancerStudio from "./pages/FreelancerStudio";
 
 function App() {
+  const currentUser = useSelector((state) => state.users?.user);
+  const theme = currentUser?.theme || "light";
+  const isLoggedIn = Boolean(currentUser?.email);
+  const isFreelancer = currentUser?.accountType === "freelancer";
+  const isAdmin = currentUser?.role === "admin";
+
+  useEffect(() => {
+    const resolvedTheme = theme === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", resolvedTheme);
+    document.body.setAttribute("data-theme", resolvedTheme);
+    document.body.classList.toggle("theme-dark", resolvedTheme === "dark");
+    document.body.classList.toggle("theme-light", resolvedTheme === "light");
+  }, [theme]);
+
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="app-shell">
         <Header />
 
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={!isLoggedIn ? <Home /> : isAdmin ? <Navigate to="/admin" replace /> : isFreelancer ? <Navigate to="/freelancer-studio" replace /> : <Navigate to="/project-intro" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/verify-otp" element={<OtpVerify />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-            <Route path="/project-intro" element={<PrivateRoute><ProjectIntro /></PrivateRoute>} />
+            <Route path="/freelancer-studio" element={<PrivateRoute><FreelancerStudio /></PrivateRoute>} />
+            <Route path="/project-intro" element={isFreelancer ? <Navigate to="/freelancer-studio" replace /> : <PrivateRoute><ProjectIntro /></PrivateRoute>} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/freelancers" element={<Freelancers />} />
             <Route path="/freelancer/:id" element={<FreelancerProfile />} />

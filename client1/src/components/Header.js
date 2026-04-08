@@ -11,6 +11,9 @@ export default function Header() {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useSelector((state) => state.users);
+  const isFreelancer = user?.accountType === 'freelancer';
+  const isAdmin = user?.role === 'admin';
+  const showHomeLink = !user?.email || (!isFreelancer && !isAdmin);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,11 +53,13 @@ export default function Header() {
     };
   }, []);
 
+  const logoTarget = isAdmin ? '/admin' : isFreelancer ? '/freelancer-studio' : user?.email ? '/project-intro' : '/';
+
   return (
     <header className="header">
       <div className="header-container">
         {/* Logo Section */}
-        <Link to="/" className="logo-section" onClick={() => setIsMobileMenuOpen(false)}>
+        <Link to={logoTarget} className="logo-section" onClick={() => setIsMobileMenuOpen(false)}>
           <img src={logo} alt="Tadreej Logo" className="logo-img" />
           <span className="logo-text">Tadreej</span>
         </Link>
@@ -67,20 +72,22 @@ export default function Header() {
         {/* Navigation Links */}
         <nav className={`nav-menu ${isMobileMenuOpen ? "active" : ""}`}>
           <ul className="nav-links">
-            <li>
-              <Link 
-                to={user?.email ? "/project-intro" : "/"} 
-                className={
-                  (user?.email && location.pathname === "/project-intro") || 
-                  (!user?.email && location.pathname === "/") 
-                    ? "active" 
-                    : ""
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-            </li>
+            {showHomeLink && (
+              <li>
+                <Link 
+                  to={user?.email ? "/project-intro" : "/"} 
+                  className={
+                    (user?.email && location.pathname === "/project-intro") || 
+                    (!user?.email && location.pathname === "/") 
+                      ? "active" 
+                      : ""
+                  }
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Home
+                </Link>
+              </li>
+            )}
             <li>
               <Link 
                 to="/roadmap" 
@@ -108,6 +115,17 @@ export default function Header() {
                 Courses
               </Link>
             </li>
+            {user?.accountType === 'freelancer' && (
+              <li>
+                <Link 
+                  to="/freelancer-studio" 
+                  className={location.pathname === "/freelancer-studio" ? "active" : ""}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Freelancer Studio
+                </Link>
+              </li>
+            )}
             {user?.email && (
               <li>
                 <Link 
@@ -159,6 +177,15 @@ export default function Header() {
                     >
                       <FaUser className="dropdown-icon" /> My Profile
                     </Link>
+                    {user?.accountType === 'freelancer' && (
+                      <Link 
+                        to="/freelancer-studio" 
+                        className="dropdown-item"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <FaCog className="dropdown-icon" /> Freelancer Studio
+                      </Link>
+                    )}
                     <div 
                       className="dropdown-item"
                       onClick={handleLogoutClick}

@@ -8,13 +8,13 @@ describe("Login Page Tests", () => {
   test("renders login title", () => {
     render(
       <Provider store={store}>
-        <MemoryRouter>
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Login />
         </MemoryRouter>
       </Provider>
     );
 
-    // 👇 نحدد العنوان فقط (وليس زر Login)
+
     expect(
       screen.getByRole("heading", { name: /login/i })
     ).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Login Page Tests", () => {
   test("email input works", () => {
     render(
       <Provider store={store}>
-        <MemoryRouter>
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Login />
         </MemoryRouter>
       </Provider>
@@ -38,7 +38,7 @@ describe("Login Page Tests", () => {
   test("password input works", () => {
     render(
       <Provider store={store}>
-        <MemoryRouter>
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Login />
         </MemoryRouter>
       </Provider>

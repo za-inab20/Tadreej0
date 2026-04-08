@@ -16,7 +16,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.0.0",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "nodemailer": "^6.9.15"
   },
   "devDependencies": {

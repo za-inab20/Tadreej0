@@ -60,9 +60,9 @@ export default function Roadmap() {
             onClick={() => isLoggedIn ? navigate(step.path) : navigate("/login")}
             style={{ cursor: "pointer" }}
           >
-            <div className="content" style={{ borderColor: step.color }}>
+            <div className="content" style={{ borderColor: step.color, "--accent-color": step.color }}>
               <div className="text-content">
-                <h3 style={{ color: step.color }}>{step.title}</h3>
+                <h3>{step.title}</h3>
                 <p>{step.desc}</p>
               </div>
               <img src={step.img} alt={step.title} className="roadmap-img" />
