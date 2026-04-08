@@ -44,7 +44,7 @@ const Register = () => {
         navigate('/login');
       }, 1200);
     } catch (error) {
-      // handled in redux message state
+      // handled in redux message state..
     }
   };
 

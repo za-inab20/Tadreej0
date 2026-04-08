@@ -33,7 +33,7 @@ const ForgotPassword = () => {
             alert("Reset code sent to your email.");
             navigate("/verify-otp", { state: { email } });
         } catch (err) {
-            // error surfaced via alert in useEffect
+            // error surfaced via alert in useEffect..
         }
     };
 
