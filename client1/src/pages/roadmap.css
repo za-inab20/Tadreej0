@@ -1,0 +1,277 @@
+.timeline-container {
+  --timeline-surface: #ffffff;
+  --timeline-surface-border: #e2e8f0;
+  --timeline-surface-text: #0f172a;
+  --timeline-surface-muted: #475569;
+  --timeline-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  --timeline-shadow-hover: 0 24px 50px rgba(79, 70, 229, 0.16);
+  padding: 56px 20px 72px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.timeline-container h2 {
+  color: var(--text-main);
+  text-align: center;
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 52px;
+}
+
+.timeline-wrapper {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+}
+
+.timeline-progress {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, #4f46e5, #7c3aed);
+  height: 0;
+  transition: height 0.2s ease-out;
+  border-radius: 999px;
+  z-index: 1;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 88px;
+  width: 40%;
+  z-index: 2;
+}
+
+.timeline-item.right {
+  left: 50%;
+  padding-left: 44px;
+}
+
+.timeline-item.left {
+  left: 10%;
+  padding-right: 44px;
+  text-align: right;
+}
+
+.timeline-item .content {
+  background: var(--timeline-surface) !important;
+  border: 1px solid var(--timeline-surface-border);
+  color: var(--timeline-surface-text) !important;
+  padding: 32px;
+  border-radius: 24px;
+  position: relative;
+  box-shadow: var(--timeline-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  min-height: 220px;
+  isolation: isolate;
+}
+
+.text-content {
+  width: 100%;
+}
+
+.timeline-item.right .content {
+  padding-right: 150px;
+}
+
+.timeline-item.left .content {
+  padding-left: 150px;
+  margin-left: auto;
+}
+
+.timeline-item .content h3 {
+  margin: 0 0 14px;
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--accent-color, var(--timeline-surface-text)) !important;
+}
+
+.timeline-item .content p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--timeline-surface-muted) !important;
+}
+
+.timeline-item:hover .content {
+  transform: translateY(-6px);
+  box-shadow: var(--timeline-shadow-hover);
+  border-color: var(--accent-color, #6366f1);
+}
+
+.roadmap-img {
+  width: 180px;
+  height: 148px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.96);
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.12);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 10px;
+}
+
+.timeline-item.right .roadmap-img {
+  right: -78px;
+}
+
+.timeline-item.left .roadmap-img {
+  left: -78px;
+}
+
+.timeline-circle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 800;
+  z-index: 3;
+  box-shadow: 0 0 0 5px var(--app-bg), 0 0 0 10px rgba(79, 70, 229, 0.12);
+  transition: transform 0.25s ease;
+}
+
+.timeline-item.right .timeline-circle {
+  left: -22px;
+}
+
+.timeline-item.left .timeline-circle {
+  right: -22px;
+}
+
+.timeline-circle:hover {
+  transform: translateY(-50%) scale(1.08);
+  cursor: pointer;
+}
+
+body[data-theme='dark'] .timeline-container {
+  --timeline-surface: #ffffff;
+  --timeline-surface-border: #dbe3f0;
+  --timeline-surface-text: #0f172a;
+  --timeline-surface-muted: #475569;
+  --timeline-shadow: 0 20px 42px rgba(2, 6, 23, 0.28);
+  --timeline-shadow-hover: 0 28px 56px rgba(2, 6, 23, 0.42);
+}
+
+body[data-theme='dark'] .timeline-line {
+  background: rgba(226, 232, 240, 0.26);
+}
+
+body[data-theme='dark'] .roadmap-img {
+  background: #f8fafc;
+}
+
+body[data-theme='dark'] .timeline-circle {
+  box-shadow: 0 0 0 5px var(--app-bg), 0 0 0 10px rgba(129, 140, 248, 0.18);
+}
+
+@media (max-width: 1024px) {
+  .timeline-item {
+    width: 43%;
+  }
+
+  .timeline-item.left {
+    left: 7%;
+  }
+
+  .timeline-item.right .content {
+    padding-right: 128px;
+  }
+
+  .timeline-item.left .content {
+    padding-left: 128px;
+  }
+
+  .roadmap-img {
+    width: 150px;
+    height: 132px;
+  }
+
+  .timeline-item.right .roadmap-img {
+    right: -56px;
+  }
+
+  .timeline-item.left .roadmap-img {
+    left: -56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .timeline-container {
+    padding: 36px 16px 56px;
+  }
+
+  .timeline-container h2 {
+    margin-bottom: 34px;
+  }
+
+  .timeline-line,
+  .timeline-progress {
+    left: 28px;
+    transform: none;
+  }
+
+  .timeline-item {
+    width: 100%;
+    left: 0 !important;
+    padding-left: 64px;
+    padding-right: 0;
+    text-align: left;
+    margin-bottom: 44px;
+  }
+
+  .timeline-item.left {
+    text-align: left;
+  }
+
+  .timeline-item .content,
+  .timeline-item.right .content,
+  .timeline-item.left .content {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    text-align: left;
+    padding: 24px !important;
+    min-height: unset;
+  }
+
+  .roadmap-img {
+    position: static;
+    transform: none;
+    margin-bottom: 18px;
+    width: min(100%, 280px);
+    height: auto;
+    align-self: center;
+  }
+
+  .timeline-item.right .timeline-circle,
+  .timeline-item.left .timeline-circle {
+    left: 5px;
+    right: auto;
+  }
+}
