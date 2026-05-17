@@ -22,7 +22,7 @@ describe("PhaseShell Tests", () => {
                 <MemoryRouter>
                     <PhaseShell
                         phaseIndex={0}
-                        accentColor="#4f46e5"
+                        accentColor="#534cdf"
                         defaultData={defaultData}
                     />
                 </MemoryRouter>
