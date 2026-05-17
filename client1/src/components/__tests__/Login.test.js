@@ -14,7 +14,7 @@ describe("Login Page Tests", () => {
       </Provider>
     );
 
-
+    // 👇 نحدد العنوان فقط (وليس زر Login)
     expect(
       screen.getByRole("heading", { name: /login/i })
     ).toBeInTheDocument();

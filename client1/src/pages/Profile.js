@@ -1,3 +1,4 @@
+import { useLang } from '../context/LangContext';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -63,6 +64,7 @@ const Profile = () => {
   const { user, isLoading } = useSelector((state) => state.users);
   const userConfig = useMemo(() => getUserConfig(user), [user]);
 
+  const { lang } = useLang();
   const [activeTab, setActiveTab] = useState('profile');
   const [formData, setFormData] = useState({
     uname: '',

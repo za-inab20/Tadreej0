@@ -226,7 +226,7 @@ export const getAllCourses = async (req, res) => {
 
 export const createCourse = async (req, res) => {
   try {
-    const { title, instructor, rating, reviews, price, duration, category, level, description, isPublished } = req.body;
+    const { title, instructor, rating, reviews, price, duration, category, level, description, isPublished, courseLink } = req.body;
 
     if (!title || !instructor || price === undefined || !duration || !category || !level) {
       return res.status(400).json({ message: 'Title, instructor, price, duration, category, and level are required' });
@@ -242,6 +242,7 @@ export const createCourse = async (req, res) => {
       category,
       level,
       description: description || '',
+      courseLink: courseLink || '',
       isPublished: isPublished !== false,
     });
 
@@ -260,7 +261,7 @@ export const updateCourse = async (req, res) => {
       return res.status(404).json({ message: 'Course not found' });
     }
 
-    const fields = ['title', 'instructor', 'duration', 'category', 'level', 'description'];
+    const fields = ['title', 'instructor', 'duration', 'category', 'level', 'description', 'courseLink'];
     fields.forEach((field) => {
       if (req.body[field] !== undefined) {
         course[field] = req.body[field];
@@ -349,6 +350,8 @@ export const createFreelancer = async (req, res) => {
       responseTime: responseTime || '~ 1 hour',
       languages: normalizeSkills(languages),
       memberSince: memberSince || '',
+      profileUrl: req.body.profileUrl || '',
+      worksExhibition: Array.isArray(req.body.worksExhibition) ? req.body.worksExhibition : [],
     });
 
     return res.status(201).json({ message: 'Freelancer created successfully', freelancer: mapFreelancer(freelancer) });
@@ -366,7 +369,7 @@ export const updateFreelancer = async (req, res) => {
       return res.status(404).json({ message: 'Freelancer not found' });
     }
 
-    const stringFields = ['name', 'roleTitle', 'category', 'location', 'about', 'responseTime', 'memberSince'];
+    const stringFields = ['name', 'roleTitle', 'category', 'location', 'about', 'responseTime', 'memberSince', 'profileUrl'];
     stringFields.forEach((field) => {
       if (req.body[field] !== undefined) {
         freelancer[field] = req.body[field];
@@ -379,6 +382,7 @@ export const updateFreelancer = async (req, res) => {
     if (req.body.completedJobs !== undefined) freelancer.completedJobs = Number(req.body.completedJobs);
     if (req.body.skills !== undefined) freelancer.skills = normalizeSkills(req.body.skills);
     if (req.body.languages !== undefined) freelancer.languages = normalizeSkills(req.body.languages);
+    if (req.body.worksExhibition !== undefined) freelancer.worksExhibition = Array.isArray(req.body.worksExhibition) ? req.body.worksExhibition : [];
 
     if (freelancer.ownerId) {
       const owner = freelancer.ownerId;

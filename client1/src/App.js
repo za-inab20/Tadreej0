@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { LangProvider } from "./context/LangContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
@@ -46,6 +47,7 @@ function App() {
   }, [theme]);
 
   return (
+    <LangProvider>
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="app-shell">
         <Header />
@@ -82,6 +84,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </LangProvider>
   );
 }
 

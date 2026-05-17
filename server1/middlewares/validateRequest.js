@@ -1,4 +1,3 @@
-// Request validation middleware
 export const validateEmail = (req, res, next) => {
     const { email } = req.body;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

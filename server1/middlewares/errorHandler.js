@@ -1,4 +1,3 @@
-// Global error handler middleware
 export const errorHandler = (err, req, res, next) => {
     console.error('Error:', err.stack);
 
@@ -10,7 +9,6 @@ export const errorHandler = (err, req, res, next) => {
     });
 };
 
-// 404 Not Found handler
 export const notFound = (req, res, next) => {
     const error = new Error(`Not Found - ${req.originalUrl}`);
     res.status(404);

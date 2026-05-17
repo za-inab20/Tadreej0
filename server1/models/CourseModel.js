@@ -52,6 +52,11 @@ const CourseSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    courseLink: {
+      type: String,
+      default: '',
+      trim: true,
+    },
   },
   { timestamps: true }
 );
