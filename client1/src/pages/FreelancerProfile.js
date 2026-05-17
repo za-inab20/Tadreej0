@@ -147,9 +147,9 @@ function FreelancerProfile() {
                 {t.viewFullProfile}
               </a>
             ) : (
-              <button className="btn-hire-now">{t.hireNow}</button>
+              {/* <button className="btn-hire-now">{t.hireNow}</button> */}
             )}
-            <button className="btn-message">{t.message}</button>
+            {/* <button className="btn-message">{t.message}</button> */}
           </div>
         </div>
       </div>
