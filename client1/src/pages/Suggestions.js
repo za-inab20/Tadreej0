@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Suggestions.css";
+import { useT } from "../context/LangContext";
 import { FaHandshake, FaBullhorn, FaChartLine, FaCloud, FaGavel, FaMoneyBillWave, FaExternalLinkAlt, FaStar } from "react-icons/fa";
 
 const suggestionsData = [
@@ -68,6 +69,7 @@ const suggestionsData = [
 const categories = ["All", "Marketing", "Funding", "Legal", "Infrastructure", "Analytics", "Networking"];
 
 function Suggestions() {
+  const t = useT();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredSuggestions = suggestionsData.filter((suggestion) => {
@@ -81,10 +83,9 @@ function Suggestions() {
           <div className="header-icon">
             <FaHandshake />
           </div>
-          <h1 className="suggestions-title">Growth Partners & Resources</h1>
+          <h1 className="suggestions-title">{t.suggestionsTitle}</h1>
           <p className="suggestions-subtitle">
-            Now that you've completed your roadmap, connect with top-tier companies and services 
-            dedicated to helping your startup scale, secure funding, and succeed in the market.
+            {t.suggestionsSubtitle}
           </p>
         </div>
 

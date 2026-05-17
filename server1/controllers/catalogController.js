@@ -158,6 +158,7 @@ export const createMyFreelancer = async (req, res) => {
       responseTime: responseTime || '~ 1 hour',
       languages: normalizeSkills(languages).length ? normalizeSkills(languages) : ['English'],
       memberSince: memberSince || buildMemberSince(),
+      worksExhibition: Array.isArray(req.body.worksExhibition) ? req.body.worksExhibition : [],
     });
 
     return res.status(201).json({
@@ -195,6 +196,7 @@ export const updateMyFreelancer = async (req, res) => {
     if (req.body.hourlyRate !== undefined) freelancer.hourlyRate = Number(req.body.hourlyRate);
     if (req.body.completedJobs !== undefined) freelancer.completedJobs = Number(req.body.completedJobs);
     if (req.body.skills !== undefined) freelancer.skills = normalizeSkills(req.body.skills);
+    if (req.body.worksExhibition !== undefined) freelancer.worksExhibition = Array.isArray(req.body.worksExhibition) ? req.body.worksExhibition : [];
     if (req.body.languages !== undefined) {
       const normalizedLanguages = normalizeSkills(req.body.languages);
       freelancer.languages = normalizedLanguages.length ? normalizedLanguages : ['English'];
@@ -237,5 +239,47 @@ export const deleteMyFreelancer = async (req, res) => {
   } catch (error) {
     console.error('Delete My Freelancer Error:', error);
     return res.status(500).json({ message: 'Server error deleting your freelancer service' });
+  }
+};
+
+export const addFreelancerReview = async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ message: 'Rating must be between 1 and 5' });
+    }
+
+    const freelancer = await FreelancerModel.findById(req.params.id);
+    if (!freelancer || !canShowPublicFreelancer(freelancer)) {
+      return res.status(404).json({ message: 'Freelancer not found' });
+    }
+
+    const existingReview = freelancer.userReviews.find(
+      (r) => r.userId.toString() === req.authUser._id.toString()
+    );
+    if (existingReview) {
+      return res.status(409).json({ message: 'You have already reviewed this freelancer' });
+    }
+
+    freelancer.userReviews.push({
+      userId: req.authUser._id,
+      userName: req.authUser.uname,
+      rating: Number(rating),
+      comment: comment || '',
+    });
+
+    const allRatings = freelancer.userReviews.map((r) => r.rating);
+    freelancer.rating = parseFloat(
+      (allRatings.reduce((sum, r) => sum + r, 0) / allRatings.length).toFixed(1)
+    );
+    freelancer.reviews = allRatings.length;
+
+    await freelancer.save();
+
+    return res.status(201).json({ message: 'Review submitted successfully', freelancer: buildFreelancerResponse(freelancer) });
+  } catch (error) {
+    console.error('Add Review Error:', error);
+    return res.status(500).json({ message: 'Server error submitting review' });
   }
 };

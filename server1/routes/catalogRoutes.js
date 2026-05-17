@@ -7,6 +7,7 @@ import {
   getFreelancers,
   getMyFreelancers,
   updateMyFreelancer,
+  addFreelancerReview,
 } from '../controllers/catalogController.js';
 import { requireAuthenticatedUser } from '../middlewares/authMiddleware.js';
 
@@ -20,5 +21,6 @@ router.delete('/my/freelancers/:id', requireAuthenticatedUser, deleteMyFreelance
 router.get('/courses', getCourses);
 router.get('/freelancers', getFreelancers);
 router.get('/freelancers/:id', getFreelancerById);
+router.post('/freelancers/:id/review', requireAuthenticatedUser, addFreelancerReview);
 
 export default router;

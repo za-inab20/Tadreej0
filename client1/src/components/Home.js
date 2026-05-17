@@ -2,36 +2,25 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import homeImg from "../assets/home.png";
 import "./Home.css";
+import { useT } from "../context/LangContext";
 
 function Home() {
   const navigate = useNavigate();
+  const t = useT();
 
   return (
     <div className="home-container">
-      {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">
-            Welcome to <span className="highlight">Tadreej</span>
+            {t.heroTitle} <span className="highlight">Tadreej</span>
           </h1>
-          
-          <p className="hero-description">
-            Tadreej helps you turn your ideas into real startup projects through guided steps and smart tools.
-          </p>
-
+          <p className="hero-description">{t.heroDesc}</p>
           <div className="hero-image-container">
-            <img
-              src={homeImg}
-              alt="Tadreej Platform"
-              className="hero-image"
-            />
+            <img src={homeImg} alt="Tadreej Platform" className="hero-image" />
           </div>
-
-          <button
-            className="cta-button"
-            onClick={() => navigate("/login")}
-          >
-            Start Your Journey
+          <button className="cta-button" onClick={() => navigate("/login")}>
+            {t.startJourney}
           </button>
         </div>
       </section>

@@ -551,3 +551,45 @@ body[data-theme='dark'] .approval-select.rejected {
   border-color: rgba(248, 113, 113, 0.4);
   color: #fecaca;
 }
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.form-field label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.admin-form .form-field input,
+.admin-form .form-field select,
+.admin-form .form-field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #111827;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.admin-form .form-field input:focus,
+.admin-form .form-field select:focus,
+.admin-form .form-field textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+}
+
+[dir="rtl"] .admin-table th,
+[dir="rtl"] .admin-table td {
+  text-align: right;
+}

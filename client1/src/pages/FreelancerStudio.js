@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useLang } from '../context/LangContext';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { FaPencilAlt, FaPlus, FaSave, FaTrash } from 'react-icons/fa';
@@ -6,18 +7,79 @@ import { api, getUserConfig } from '../utils/api';
 import './Profile.css';
 import './FreelancerStudio.css';
 
+const LABELS = {
+  en: {
+    workspace: 'Freelancer workspace',
+    title: 'Freelancer Studio',
+    subtitle: 'Add, update, and manage your freelancer activities and services. You can prepare everything privately before admin approval.',
+    approvalStatus: 'Approval Status',
+    totalServices: 'Total Services', totalServicesDesc: 'Everything you created in your private studio.',
+    visibility: 'Current Visibility', visibilityPublic: 'Visible to everyone', visibilityPrivate: 'Private until admin approval',
+    readiness: 'Studio Readiness', readyLabel: 'Profile ready', notReadyLabel: 'Add your first service',
+    readyDesc: 'Keep your listings polished so they publish immediately after approval.',
+    notReadyDesc: 'Create at least one service to prepare your freelancer profile.',
+    publicLive: 'public service live now.', publicLivePlural: 'public services live now.',
+    privatePending: 'private service hidden until approval.', privatePendingPlural: 'private services hidden until approval.',
+    updateService: 'Update Service', addService: 'Add New Service',
+    addDesc: 'Create a polished freelancer listing. Private services stay visible only to you until approval.',
+    displayName: 'Display Name', displayNamePH: 'Your public freelancer name',
+    roleTitle: 'Role Title', roleTitlePH: 'Full Stack Developer',
+    category: 'Category', categoryPH: 'Development, Design, Marketing...',
+    hourlyRate: 'Hourly Rate', hourlyRatePH: '45',
+    location: 'Location', locationPH: 'Muscat, Oman',
+    completedJobs: 'Completed Jobs',
+    skills: 'Skills', skillsPH: 'React, Node.js, UI Design',
+    languages: 'Languages', languagesPH: 'English, Arabic',
+    responseTime: 'Response Time', responseTimePH: '~ 1 hour',
+    memberSince: 'Member Since', memberSincePH: 'Mar 2026',
+    aboutService: 'About Service', aboutPH: 'Describe the value you deliver, your workflow, and what clients can expect.',
+    worksExhibition: 'Works Exhibition', worksPH: 'Image or video URLs separated by commas',
+    saveService: 'Save Service', cancelEdit: 'Cancel Edit',
+    yourServices: 'Your Services',
+    servicesDesc: 'Once admin approves your freelancer account, all private services become visible immediately to everyone.',
+    loading: 'Loading your freelancer services...', empty: 'You have not added any freelancer services yet.',
+    public: 'Public', private: 'Private',
+    edit: 'Edit', delete: 'Delete',
+  },
+  ar: {
+    workspace: 'مساحة الفريلانسر',
+    title: 'استوديو الفريلانسر',
+    subtitle: 'أضف وحدّث وأدر خدماتك. يمكنك تجهيز كل شيء بشكل خاص قبل موافقة الأدمن.',
+    approvalStatus: 'حالة الموافقة',
+    totalServices: 'إجمالي الخدمات', totalServicesDesc: 'كل ما أنشأته في استوديوك الخاص.',
+    visibility: 'الظهور الحالي', visibilityPublic: 'مرئي للجميع', visibilityPrivate: 'خاص حتى موافقة الأدمن',
+    readiness: 'جاهزية الاستوديو', readyLabel: 'البروفايل جاهز', notReadyLabel: 'أضف خدمتك الأولى',
+    readyDesc: 'احتفظ بقوائمك مصقولة لتُنشر فوراً بعد الموافقة.',
+    notReadyDesc: 'أنشئ خدمة واحدة على الأقل لتجهيز ملفك الشخصي.',
+    publicLive: 'خدمة عامة مباشرة الآن.', publicLivePlural: 'خدمات عامة مباشرة الآن.',
+    privatePending: 'خدمة خاصة مخفية حتى الموافقة.', privatePendingPlural: 'خدمات خاصة مخفية حتى الموافقة.',
+    updateService: 'تحديث الخدمة', addService: 'إضافة خدمة جديدة',
+    addDesc: 'أنشئ قائمة فريلانسر متقنة. تبقى الخدمات الخاصة مرئية لك فقط حتى الموافقة.',
+    displayName: 'الاسم المعروض', displayNamePH: 'اسمك العلني',
+    roleTitle: 'المسمى الوظيفي', roleTitlePH: 'مطور متكامل',
+    category: 'التصنيف', categoryPH: 'تطوير، تصميم، تسويق...',
+    hourlyRate: 'السعر بالساعة', hourlyRatePH: '45',
+    location: 'الموقع', locationPH: 'مسقط، عُمان',
+    completedJobs: 'المشاريع المنجزة',
+    skills: 'المهارات', skillsPH: 'React, Node.js, تصميم UI',
+    languages: 'اللغات', languagesPH: 'الإنجليزية، العربية',
+    responseTime: 'وقت الاستجابة', responseTimePH: '~ ساعة واحدة',
+    memberSince: 'عضو منذ', memberSincePH: 'مارس 2026',
+    aboutService: 'نبذة عن الخدمة', aboutPH: 'صف القيمة التي تقدمها وطريقة عملك.',
+    worksExhibition: 'معرض الأعمال', worksPH: 'روابط الصور أو الفيديوهات مفصولة بفاصلة',
+    saveService: 'حفظ الخدمة', cancelEdit: 'إلغاء التعديل',
+    yourServices: 'خدماتك',
+    servicesDesc: 'بمجرد موافقة الأدمن على حسابك، ستصبح جميع الخدمات الخاصة مرئية للجميع فوراً.',
+    loading: 'جارٍ تحميل خدماتك...', empty: 'لم تضف أي خدمة بعد.',
+    public: 'عام', private: 'خاص',
+    edit: 'تعديل', delete: 'حذف',
+  },
+};
+
 const emptyServiceForm = {
-  name: '',
-  roleTitle: '',
-  category: '',
-  hourlyRate: '',
-  location: '',
-  skills: '',
-  languages: 'English',
-  responseTime: '~ 1 hour',
-  memberSince: '',
-  completedJobs: 0,
-  about: '',
+  name: '', roleTitle: '', category: '', hourlyRate: '', location: '',
+  skills: '', languages: 'English', responseTime: '~ 1 hour',
+  memberSince: '', completedJobs: 0, about: '', worksExhibition: '',
 };
 
 const approvalMeta = {
@@ -41,6 +103,9 @@ const approvalMeta = {
 const FreelancerStudio = () => {
   const { user } = useSelector((state) => state.users);
   const userConfig = useMemo(() => getUserConfig(user), [user]);
+  const { lang } = useLang();
+  const t = LABELS[lang];
+
   const [serviceForm, setServiceForm] = useState(emptyServiceForm);
   const [serviceItems, setServiceItems] = useState([]);
   const [serviceLoading, setServiceLoading] = useState(false);
@@ -52,7 +117,7 @@ const FreelancerStudio = () => {
   const currentApprovalMeta = approvalMeta[approvalStatus] || approvalMeta.pending;
   const publicServicesCount = serviceItems.filter((item) => (item.publicVisibility || 'public') === 'public').length;
   const privateServicesCount = serviceItems.filter((item) => (item.publicVisibility || 'private') !== 'public').length;
-  const visibilitySummary = approvalStatus === 'approved' ? 'Visible to everyone' : 'Private until admin approval';
+  const visibilitySummary = approvalStatus === 'approved' ? t.visibilityPublic : t.visibilityPrivate;
 
   const resetServiceForm = () => {
     setServiceForm({
@@ -63,14 +128,10 @@ const FreelancerStudio = () => {
     setEditingServiceId('');
   };
 
-  useEffect(() => {
-    resetServiceForm();
-  }, [user?._id]);
+  useEffect(() => { resetServiceForm(); }, [user?._id]);
 
   useEffect(() => {
-    if (isFreelancerAccount) {
-      loadFreelancerServices();
-    }
+    if (isFreelancerAccount) loadFreelancerServices();
   }, [user?._id, isFreelancerAccount]);
 
   const loadFreelancerServices = async () => {
@@ -95,13 +156,15 @@ const FreelancerStudio = () => {
   const handleServiceSubmit = async (event) => {
     event.preventDefault();
     setServiceMessage('');
-
+    const worksArr = serviceForm.worksExhibition
+      ? serviceForm.worksExhibition.split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
     const payload = {
       ...serviceForm,
       hourlyRate: Number(serviceForm.hourlyRate),
       completedJobs: Number(serviceForm.completedJobs || 0),
+      worksExhibition: worksArr,
     };
-
     try {
       if (editingServiceId) {
         await api.put(`/api/catalog/my/freelancers/${editingServiceId}`, payload, userConfig);
@@ -110,7 +173,6 @@ const FreelancerStudio = () => {
         await api.post('/api/catalog/my/freelancers', payload, userConfig);
         setServiceMessage('Freelancer service created successfully.');
       }
-
       resetServiceForm();
       loadFreelancerServices();
     } catch (error) {
@@ -132,47 +194,41 @@ const FreelancerStudio = () => {
       memberSince: item.memberSince || '',
       completedJobs: item.completedJobs ?? 0,
       about: item.about || '',
+      worksExhibition: Array.isArray(item.worksExhibition) ? item.worksExhibition.join(', ') : '',
     });
     setServiceMessage('Editing selected service.');
   };
 
   const handleDeleteService = async (id) => {
     if (!window.confirm('Delete this freelancer service?')) return;
-
     try {
       await api.delete(`/api/catalog/my/freelancers/${id}`, userConfig);
-      setServiceItems((current) => current.filter((item) => item._id !== id));
+      setServiceItems((cur) => cur.filter((item) => item._id !== id));
       setServiceMessage('Freelancer service deleted successfully.');
-      if (editingServiceId === id) {
-        resetServiceForm();
-      }
+      if (editingServiceId === id) resetServiceForm();
     } catch (error) {
       setServiceMessage(error.response?.data?.message || 'Failed to delete freelancer service.');
     }
   };
 
-  if (!user?.email) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (!isFreelancerAccount) {
-    return <Navigate to="/profile" replace />;
-  }
+  if (!user?.email) return <Navigate to="/login" replace />;
+  if (!isFreelancerAccount) return <Navigate to="/profile" replace />;
 
   return (
-    <div className="profile-container full-page freelancer-studio-page">
+    <div className="profile-container full-page freelancer-studio-page" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       <div className="profile-main-content solo-layout">
         <div className="content-header studio-header">
           <div>
-            <span className="studio-kicker">Freelancer workspace</span>
-            <h2>Freelancer Studio</h2>
-            <p>Add, update, and manage your freelancer activities and services. You can prepare everything privately before admin approval.</p>
+            <span className="studio-kicker">{t.workspace}</span>
+            <h2>{t.title}</h2>
+            <p>{t.subtitle}</p>
           </div>
+          
         </div>
 
         <div className={`studio-approval-card ${currentApprovalMeta.className}`}>
           <div className="studio-approval-copy">
-            <span className="studio-status-label">Approval Status</span>
+            <span className="studio-status-label">{t.approvalStatus}</span>
             <h3>{currentApprovalMeta.title}</h3>
             <p>{currentApprovalMeta.description}</p>
           </div>
@@ -184,24 +240,28 @@ const FreelancerStudio = () => {
 
         <div className="studio-summary-grid">
           <div className="studio-summary-card">
-            <span>Total Services</span>
+            <span>{t.totalServices}</span>
             <strong>{serviceItems.length}</strong>
-            <small>Everything you created in your private studio.</small>
+            <small>{t.totalServicesDesc}</small>
           </div>
           <div className="studio-summary-card">
-            <span>Current Visibility</span>
+            <span>{t.visibility}</span>
             <strong>{visibilitySummary}</strong>
-            <small>{approvalStatus === 'approved' ? `${publicServicesCount} public service${publicServicesCount === 1 ? '' : 's'} live now.` : `${privateServicesCount || serviceItems.length} private service${(privateServicesCount || serviceItems.length) === 1 ? '' : 's'} hidden until approval.`}</small>
+            <small>
+              {approvalStatus === 'approved'
+                ? `${publicServicesCount} ${publicServicesCount === 1 ? t.publicLive : t.publicLivePlural}`
+                : `${privateServicesCount || serviceItems.length} ${(privateServicesCount || serviceItems.length) === 1 ? t.privatePending : t.privatePendingPlural}`}
+            </small>
           </div>
           <div className="studio-summary-card">
-            <span>Studio Readiness</span>
-            <strong>{serviceItems.length > 0 ? 'Profile ready' : 'Add your first service'}</strong>
-            <small>{serviceItems.length > 0 ? 'Keep your listings polished so they publish immediately after approval.' : 'Create at least one service to prepare your freelancer profile.'}</small>
+            <span>{t.readiness}</span>
+            <strong>{serviceItems.length > 0 ? t.readyLabel : t.notReadyLabel}</strong>
+            <small>{serviceItems.length > 0 ? t.readyDesc : t.notReadyDesc}</small>
           </div>
         </div>
 
         {serviceMessage && (
-          <div className={`alert ${serviceMessage.toLowerCase().includes('success') ? 'alert-success' : 'alert-danger'}`}>
+          <div className={`alert ${serviceMessage.toLowerCase().includes('success') || serviceMessage.includes('Editing') ? 'alert-success' : 'alert-danger'}`}>
             {serviceMessage}
           </div>
         )}
@@ -209,73 +269,70 @@ const FreelancerStudio = () => {
         <div className="studio-grid">
           <div className="studio-panel">
             <div className="studio-panel-header">
-              <h3>{editingServiceId ? 'Update Service' : 'Add New Service'}</h3>
-              <p>Create a polished freelancer listing. Private services stay visible only to you until approval.</p>
+              <h3>{editingServiceId ? t.updateService : t.addService}</h3>
+              <p>{t.addDesc}</p>
             </div>
 
             <form className="studio-form" onSubmit={handleServiceSubmit}>
               <div className="studio-form-grid">
                 <div className="form-group">
-                  <label>Display Name</label>
-                  <input name="name" value={serviceForm.name} onChange={handleServiceFormChange} placeholder="Your public freelancer name" required />
+                  <label>{t.displayName}</label>
+                  <input name="name" value={serviceForm.name} onChange={handleServiceFormChange} placeholder={t.displayNamePH} required />
                 </div>
                 <div className="form-group">
-                  <label>Role Title</label>
-                  <input name="roleTitle" value={serviceForm.roleTitle} onChange={handleServiceFormChange} placeholder="Full Stack Developer" required />
+                  <label>{t.roleTitle}</label>
+                  <input name="roleTitle" value={serviceForm.roleTitle} onChange={handleServiceFormChange} placeholder={t.roleTitlePH} required />
                 </div>
                 <div className="form-group">
-                  <label>Category</label>
-                  <input name="category" value={serviceForm.category} onChange={handleServiceFormChange} placeholder="Development, Design, Marketing..." required />
+                  <label>{t.category}</label>
+                  <input name="category" value={serviceForm.category} onChange={handleServiceFormChange} placeholder={t.categoryPH} required />
                 </div>
                 <div className="form-group">
-                  <label>Hourly Rate</label>
-                  <input type="number" min="0" step="0.01" name="hourlyRate" value={serviceForm.hourlyRate} onChange={handleServiceFormChange} placeholder="45" required />
+                  <label>{t.hourlyRate}</label>
+                  <input type="number" min="0" step="0.01" name="hourlyRate" value={serviceForm.hourlyRate} onChange={handleServiceFormChange} placeholder={t.hourlyRatePH} required />
                 </div>
                 <div className="form-group">
-                  <label>Location</label>
-                  <input name="location" value={serviceForm.location} onChange={handleServiceFormChange} placeholder="Muscat, Oman" />
+                  <label>{t.location}</label>
+                  <input name="location" value={serviceForm.location} onChange={handleServiceFormChange} placeholder={t.locationPH} />
                 </div>
                 <div className="form-group">
-                  <label>Completed Jobs</label>
+                  <label>{t.completedJobs}</label>
                   <input type="number" min="0" name="completedJobs" value={serviceForm.completedJobs} onChange={handleServiceFormChange} placeholder="0" />
                 </div>
                 <div className="form-group">
-                  <label>Skills</label>
-                  <input name="skills" value={serviceForm.skills} onChange={handleServiceFormChange} placeholder="React, Node.js, UI Design" />
+                  <label>{t.skills}</label>
+                  <input name="skills" value={serviceForm.skills} onChange={handleServiceFormChange} placeholder={t.skillsPH} />
                 </div>
                 <div className="form-group">
-                  <label>Languages</label>
-                  <input name="languages" value={serviceForm.languages} onChange={handleServiceFormChange} placeholder="English, Arabic" />
+                  <label>{t.languages}</label>
+                  <input name="languages" value={serviceForm.languages} onChange={handleServiceFormChange} placeholder={t.languagesPH} />
                 </div>
                 <div className="form-group">
-                  <label>Response Time</label>
-                  <input name="responseTime" value={serviceForm.responseTime} onChange={handleServiceFormChange} placeholder="~ 1 hour" />
+                  <label>{t.responseTime}</label>
+                  <input name="responseTime" value={serviceForm.responseTime} onChange={handleServiceFormChange} placeholder={t.responseTimePH} />
                 </div>
                 <div className="form-group">
-                  <label>Member Since</label>
-                  <input name="memberSince" value={serviceForm.memberSince} onChange={handleServiceFormChange} placeholder="Mar 2026" />
+                  <label>{t.memberSince}</label>
+                  <input name="memberSince" value={serviceForm.memberSince} onChange={handleServiceFormChange} placeholder={t.memberSincePH} />
                 </div>
               </div>
 
               <div className="form-group">
-                <label>About Service</label>
-                <textarea
-                  name="about"
-                  value={serviceForm.about}
-                  onChange={handleServiceFormChange}
-                  rows="5"
-                  placeholder="Describe the value you deliver, your workflow, and what clients can expect."
-                />
+                <label>{t.aboutService}</label>
+                <textarea name="about" value={serviceForm.about} onChange={handleServiceFormChange} rows="5" placeholder={t.aboutPH} />
+              </div>
+
+              <div className="form-group">
+                <label>{t.worksExhibition}</label>
+                <input name="worksExhibition" value={serviceForm.worksExhibition} onChange={handleServiceFormChange} placeholder={t.worksPH} />
               </div>
 
               <div className="studio-actions">
                 <button type="submit" className="btn-save" disabled={serviceLoading}>
-                  {editingServiceId ? <><FaSave /> Save Service</> : <><FaPlus /> Add Service</>}
+                  {editingServiceId ? <><FaSave /> {t.saveService}</> : <><FaPlus /> {t.addService}</>}
                 </button>
                 {editingServiceId && (
-                  <button type="button" className="btn-ghost" onClick={resetServiceForm}>
-                    Cancel Edit
-                  </button>
+                  <button type="button" className="btn-ghost" onClick={resetServiceForm}>{t.cancelEdit}</button>
                 )}
               </div>
             </form>
@@ -283,14 +340,14 @@ const FreelancerStudio = () => {
 
           <div className="studio-panel">
             <div className="studio-panel-header">
-              <h3>Your Services</h3>
-              <p>Once admin approves your freelancer account, all private services become visible immediately to everyone.</p>
+              <h3>{t.yourServices}</h3>
+              <p>{t.servicesDesc}</p>
             </div>
 
             {serviceLoading ? (
-              <div className="studio-empty">Loading your freelancer services...</div>
+              <div className="studio-empty">{t.loading}</div>
             ) : serviceItems.length === 0 ? (
-              <div className="studio-empty">You have not added any freelancer services yet.</div>
+              <div className="studio-empty">{t.empty}</div>
             ) : (
               <div className="studio-service-list">
                 {serviceItems.map((item) => (
@@ -301,30 +358,39 @@ const FreelancerStudio = () => {
                         <p>{item.roleTitle}</p>
                       </div>
                       <span className={`visibility-pill ${(item.publicVisibility || 'public') === 'public' ? 'public' : 'private'}`}>
-                        {(item.publicVisibility || 'public') === 'public' ? 'Public' : 'Private'}
+                        {(item.publicVisibility || 'public') === 'public' ? t.public : t.private}
                       </span>
                     </div>
-
                     <div className="studio-service-meta">
                       <span>{item.category}</span>
                       <span>${item.hourlyRate}/hr</span>
                       <span>{item.location || 'Remote'}</span>
                     </div>
-
                     <p className="studio-service-about">{item.about || 'No description added yet.'}</p>
-
                     <div className="studio-skill-list">
-                      {(item.skills || []).slice(0, 5).map((skill, index) => (
-                        <span key={index}>{skill}</span>
-                      ))}
+                      {(item.skills || []).slice(0, 5).map((skill, idx) => <span key={idx}>{skill}</span>)}
                     </div>
-
+                    {Array.isArray(item.worksExhibition) && item.worksExhibition.length > 0 && (
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '8px 0' }}>
+                        {item.worksExhibition.slice(0, 3).map((src, idx) => {
+                          const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(src);
+                          return isVideo ? (
+                            <video key={idx} src={src} style={{ width: '64px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e0e7ff' }} muted />
+                          ) : (
+                            <img key={idx} src={src} alt="" style={{ width: '64px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e0e7ff' }} />
+                          );
+                        })}
+                        {item.worksExhibition.length > 3 && (
+                          <span style={{ fontSize: '12px', color: '#6b7280', alignSelf: 'center' }}>+{item.worksExhibition.length - 3} more</span>
+                        )}
+                      </div>
+                    )}
                     <div className="studio-card-actions">
                       <button type="button" className="btn-inline edit" onClick={() => handleEditService(item)}>
-                        <FaPencilAlt /> Edit
+                        <FaPencilAlt /> {t.edit}
                       </button>
                       <button type="button" className="btn-inline delete" onClick={() => handleDeleteService(item._id)}>
-                        <FaTrash /> Delete
+                        <FaTrash /> {t.delete}
                       </button>
                     </div>
                   </div>

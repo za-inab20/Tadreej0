@@ -14,7 +14,7 @@ describe("Login Page Tests", () => {
       </Provider>
     );
 
-
+    // 👇 نحدد العنوان فقط (وليس زر Login)
     expect(
       screen.getByRole("heading", { name: /login/i })
     ).toBeInTheDocument();
@@ -48,6 +48,5 @@ describe("Login Page Tests", () => {
     fireEvent.change(passwordInput, { target: { value: "123456" } });
 
     expect(passwordInput.value).toBe("123456");
-    //hi 
   });
 });

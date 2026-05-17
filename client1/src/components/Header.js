@@ -5,12 +5,15 @@ import { logout } from "../features/UserSlice";
 import logo from "../assets/logo.png";
 import "./Header.css";
 import { FaBars, FaTimes, FaUserCircle, FaSignOutAlt, FaUser, FaCog } from "react-icons/fa";
+import { useLang, useT } from "../context/LangContext";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useSelector((state) => state.users);
+  const { lang, setLang } = useLang();
+  const t = useT();
   const isFreelancer = user?.accountType === 'freelancer';
   const isAdmin = user?.role === 'admin';
   const showHomeLink = !user?.email || (!isFreelancer && !isAdmin);
@@ -152,6 +155,13 @@ export default function Header() {
 
           {/* Auth Section (Inside nav-menu for mobile layout) */}
           <div className="auth-section">
+            <button
+              className="lang-toggle-btn"
+              onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
+              title="Toggle Language"
+            >
+              {lang === 'en' ? 'AR' : 'EN'}
+            </button>
             {user?.email && (
               <div className="user-profile" ref={dropdownRef}>
                 <div 
@@ -203,8 +213,8 @@ export default function Header() {
         {showLogoutDialog && (
           <div className="logout-dialog-overlay" onClick={cancelLogout}>
             <div className="logout-dialog" onClick={(e) => e.stopPropagation()}>
-              <h3 className="dialog-title">Confirm Logout</h3>
-              <p className="dialog-message">Are you sure you want to logout?</p>
+              <h3 className="dialog-title">{t.confirmLogout}</h3>
+              <p className="dialog-message">{t.confirmLogoutMsg}</p>
               <div className="dialog-buttons">
                 <button className="btn-cancel" onClick={cancelLogout}>
                   Cancel
