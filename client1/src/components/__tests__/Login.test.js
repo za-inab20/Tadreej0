@@ -48,5 +48,6 @@ describe("Login Page Tests", () => {
     fireEvent.change(passwordInput, { target: { value: "123456" } });
 
     expect(passwordInput.value).toBe("123456");
+    //hi 
   });
 });
