@@ -71,6 +71,7 @@ function FreelancerProfile() {
   const [reviewLoading, setReviewLoading] = useState(false);
 
   useEffect(() => {
+  console.log("Freelancer ID from URL:", id);
     const fetchFreelancer = async () => {
       try {
         const response = await api.get(`/api/catalog/freelancers/${id}`);
@@ -298,3 +299,4 @@ function FreelancerProfile() {
 }
 
 export default FreelancerProfile;
+

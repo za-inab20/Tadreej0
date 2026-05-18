@@ -139,7 +139,18 @@ function Courses() {
                 <div className="course-meta">
                   <span className="course-price">${course.price}</span>
                 </div>
-                <button className="enroll-btn">{t.enrollNow}</button>
+                <button
+                  className="enroll-btn"
+                  onClick={() => {
+                    if (course.courseLink) {
+                      window.open(course.courseLink, '_blank');
+                    } else {
+                      alert('Course link not available');
+                    }
+                  }}
+                >
+                  {t.enrollNow}
+                </button>
               </div>
             </div>
           ))

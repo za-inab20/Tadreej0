@@ -30,6 +30,7 @@ async function fetchCatalogData() {
   }
 }
 
+
 async function generateRoadmap(idea, courses, freelancers) {
   const courseSummary = courses.slice(0, 10)
     .map((c) => `- "${c.title}" by ${c.instructor} (${c.category})`).join("\n");

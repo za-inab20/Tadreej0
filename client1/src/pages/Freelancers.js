@@ -175,7 +175,11 @@ function Freelancers() {
                   </div>
                   <button
                     className="view-profile-btn"
-                    onClick={() => navigate(`/freelancer/${freelancer._id || freelancer.id}`)}
+                    onClick={() => {
+                      const freelancerId = freelancer._id || freelancer.id;
+                      if (!freelancerId) return;
+                      navigate(`/freelancer/${freelancerId}`);
+                    }}
                   >
                     View Profile
                   </button>
@@ -195,3 +199,4 @@ function Freelancers() {
 }
 
 export default Freelancers;
+
