@@ -32,7 +32,7 @@ describe("Profile Page Tests", () => {
     expect(screen.getByText(/security/i)).toBeInTheDocument();
   });
 
-  test("current password input works", () => {
+  test("change password input works", () => {
     render(
       <Provider store={store}>
         <MemoryRouter
