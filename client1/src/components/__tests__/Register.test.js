@@ -15,7 +15,7 @@ describe("Register Page Tests", () => {
       </Provider>
     );
 
-    // نتحقق من وجود عنوان Register
+    
     expect(
       screen.getByRole("heading", { name: /register/i })
     ).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("Register Page Tests", () => {
       </Provider>
     );
 
-    // نبحث عن حقل الاسم حسب الـ placeholder الحقيقي
+    
     const usernameInput = screen.getByPlaceholderText(/enter your name/i);
 
     fireEvent.change(usernameInput, {
