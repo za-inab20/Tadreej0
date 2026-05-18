@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import store from "../../store";
 import PhaseShell from "../../pages/phases/PhaseShell";
 
-// simple default props 
+ 
 const defaultData = {
     title: "Test Phase",
     subtitle: "Test Subtitle",
